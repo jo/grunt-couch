@@ -39,7 +39,7 @@ grunt.initConfig({
 
 #### options.server
 Type: `String`
-Default value: `'http://127.0.0.1'`
+Default value: `'http://127.0.0.1:5984'`
 
 The server url.
 
