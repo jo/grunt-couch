@@ -2,7 +2,7 @@
   "name": "grunt-couch",
   "description": "Build and publish Couchapps and CouchDB design documents with grunt. Simple.",
   "version": "0.1.0",
-  "homepage": "https://github.com/jo/grunt-couch",
+  "homepage": "https://github.com/null2/grunt-couch",
   "author": {
     "name": "Johannes J. Schmidt",
     "email": "schmidt@netzmerk.com",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jo/grunt-couch.git"
+    "url": "git://github.com/null2/grunt-couch.git"
   },
   "bugs": {
-    "url": "https://github.com/jo/grunt-couch/issues"
+    "url": "https://github.com/null2/grunt-couch/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/jo/grunt-couch/blob/master/LICENSE-MIT"
+      "url": "https://github.com/null2/grunt-couch/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",

@@ -1,6 +1,6 @@
 /*
  * grunt-couch
- * https://github.com/jo/grunt-couch
+ * https://github.com/null2/grunt-couch
  *
  * Copyright (c) 2013 Johannes J. Schmidt, null2 GmbH
  * Licensed under the MIT license.
