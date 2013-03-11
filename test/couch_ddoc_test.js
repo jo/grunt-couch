@@ -27,10 +27,30 @@ exports.couch = {
     // setup here if necessary
     done();
   },
-  nothing: function(test) {
+  simple: function(test) {
     test.expect(1);
 
-    test.ok(true, 'Welcome to the maschine!');
+    var actual = grunt.file.read('tmp/simple.json');
+    var expected = grunt.file.read('test/expected/simple.json');
+    test.equal(actual, expected, 'should compile a simple doc.');
+
+    test.done();
+  },
+  full: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/full.json');
+    var expected = grunt.file.read('test/expected/full.json');
+    test.equal(actual, expected, 'should compile a full featured doc.');
+
+    test.done();
+  },
+  advanced: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/advanced.json');
+    var expected = grunt.file.read('test/expected/advanced.json');
+    test.equal(actual, expected, 'should compile multiple docs.');
 
     test.done();
   }

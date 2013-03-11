@@ -1,11 +1,18 @@
-# grunt-couch
+grunt-couch
+================
 
-> Build and publish Couchapps and CouchDB design documents with grunt. Simple.
+Compile CouchDB design documents from Couchapp like directory tree.
 
-## Getting Started
+
+Getting Started
+---------------
+
 This plugin requires Grunt `~0.4.0`
 
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+If you haven't used [Grunt](http://gruntjs.com/) before,
+be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide,
+as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins.
+Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
 npm install grunt-couch --save-dev
@@ -17,103 +24,73 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-couch');
 ```
 
-## The "couch" task
+The "ddoc" task
+---------------
 
 ### Overview
+
 In your project's Gruntfile, add a section named `couch` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
   couch: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
+    app: {
+      files: 'app.json': 'ddoc'
     }
   }
 })
 ```
 
-### Options
+This will load the Couchapp like directory tree from ddoc and creates an app.json document.
 
-#### options.server
-Type: `String`
-Default value: `'http://127.0.0.1:5984'`
+See [Configuring tasks: Files](http://gruntjs.com/configuring-tasks#files) for more information
+about possible source and target configurations.
 
-The server url.
+### The Couchapp Directory Tree
 
-#### options.db
-Type: `String`
-Default value: `''`
+is quiet self-explanatory. For example:
 
-The database name.
+```shell
+ddoc
+├── _attachments
+│   ├── a
+│   │   └── nested
+│   │       └── file.txt
+│   └── index.html
+├── _id
+├── language
+├── lists
+│   └── docs.js
+├── rewrites.json
+├── shows
+│   ├── doc.js
+│   └── hello.js
+├── validate_doc_update.js
+└── views
+    ├── names
+    │   └── map.js
+    └── numbers
+        ├── map.js
+        └── reduce
+```
 
-#### options.user
-Type: `String`
-Default value: `''`
+### Output JSON
 
-Your username.
-
-#### options.pass
-Type: `String`
-Default value: `''`
-
-Your password.
-
-### Usage Examples
-
-#### Default Options
-
-Publish to `http://127.0.0.1:5984/mydb` and authenticate with `bernd:secure`
+The output JSON follows the [Bulk Document API](http://wiki.apache.org/couchdb/HTTP_Bulk_Document_API):
 
 ```js
-grunt.initConfig({
-  couch: {
-    options: {
-      db: 'mydb',
-      user: 'bernd',
-      pass: 'secure'
-    }
-  }
-})
+{
+  "docs": [
+    { "_id": "adoc" },
+    { "_id": "anotherdoc" }
+  ]
+}
 ```
 
-#### Custom Options
+Contributing
+------------
 
-Publish to two servers with different auth:
+In lieu of a formal styleguide, take care to maintain the existing coding style.
+Add unit tests for any new or changed functionality.
+Lint and test your code using [Grunt](http://gruntjs.com/).
 
-```js
-grunt.initConfig({
-  couch: {
-    options: {
-      db: 'mydb',
-      user: 'bernd',
-      pass: 'secure'
-    },
-    development: {
-      options: {
-        user: 'bernd',
-        pass: 'secure'
-      }
-    },
-    production: {
-      options: {
-        user: 'admin',
-        pass: 'supersecure'
-      }
-    }
-  }
-})
-```
-
-#### Commandline Options
-
-You may also pass in all the options as command line arguments and avoid storing the auth credentials in your gruntfile.
-
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-_(Nothing yet)_

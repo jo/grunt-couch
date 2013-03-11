@@ -1,15 +1,14 @@
 /*
  * grunt-couch
- * https://github.com/null2/grunt-couch
+ * https://github.com/jo/grunt-couch
  *
- * Copyright (c) 2013 Johannes J. Schmidt, null2 GmbH
+ * Copyright (c) 2013 Johannes J. Schmidt, TF
  * Licensed under the MIT license.
  */
 
 'use strict';
 
 module.exports = function(grunt) {
-
   // Project configuration.
   grunt.initConfig({
     jshint: {
@@ -25,34 +24,32 @@ module.exports = function(grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp'],
+      tests: 'tmp',
     },
 
     // Configuration to be run (and then tested).
-    couch: {
-      default_options: {
-        options: {
-        },
+    ddoc: {
+      simple: {
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+          'tmp/simple.json': 'test/fixtures/simple'
+        }
       },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
+      full: {
         files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+          'tmp/full.json': 'test/fixtures/full'
+        }
       },
+      advanced: {
+        files: {
+          'tmp/advanced.json': 'test/fixtures/advanced/*'
+        }
+      }
     },
 
     // Unit tests.
     nodeunit: {
-      tests: ['test/*_test.js'],
-    },
-
+      tests: 'test/*_test.js'
+    }
   });
 
   // Actually load this plugin's task(s).
@@ -65,9 +62,8 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'couch', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'ddoc', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
-
 };

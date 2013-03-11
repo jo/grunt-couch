@@ -1,0 +1,14 @@
+{
+  "docs": [
+    {
+      "_id": "_design/app",
+      "language": "javascript"
+    },
+    {
+      "_id": "one"
+    },
+    {
+      "_id": "two"
+    }
+  ]
+}
