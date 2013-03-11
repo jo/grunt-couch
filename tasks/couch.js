@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 
           var parts = abspath.split('/');
           var part = parts.reduce(function(result, key) {
-            result[key] || (result[key] = {});
+            result[key] = result[key] || {};
             return result[key];
           }, doc);
 
@@ -107,7 +107,11 @@ module.exports = function(grunt) {
       req(url, { method: 'PUT', body: doc }, function(err, resp) {
         var ok = resp.statusCode === 201;
 
-        ok ? grunt.log.ok() : grunt.log.error(resp.statusCode);
+        if (ok) {
+         grunt.log.ok();
+        } else {
+         grunt.log.error(resp.statusCode);
+        }
 
         done(ok);
       });
