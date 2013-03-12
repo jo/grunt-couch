@@ -1,7 +1,7 @@
 {
   "name": "grunt-couch",
   "description": "Compile CouchDB design documents from Couchapp like directory tree.",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "homepage": "https://github.com/jo/grunt-couch",
   "author": {
     "name": "Johannes J. Schmidt",
@@ -38,6 +38,7 @@
     "grunt": "~0.4.0"
   },
   "dependencies": {
+    "request": "~2.14.0",
     "mime": "~1.2.9"
   },
   "keywords": [

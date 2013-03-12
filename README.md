@@ -29,19 +29,19 @@ The "ddoc" task
 
 ### Overview
 
-In your project's Gruntfile, add a section named `couch` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `ddoc` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  couch: {
+  ddoc: {
     app: {
-      files: 'app.json': 'ddoc'
+      files: 'app.json': 'app'
     }
   }
 })
 ```
 
-This will load the Couchapp like directory tree from ddoc and creates an app.json document.
+This will load the Couchapp like directory tree from `app` and creates an `app.json` JSON file.
 
 See [Configuring tasks: Files](http://gruntjs.com/configuring-tasks#files) for more information
 about possible source and target configurations.
@@ -51,7 +51,7 @@ about possible source and target configurations.
 is quiet self-explanatory. For example:
 
 ```shell
-ddoc
+app
 ├── _attachments
 │   ├── a
 │   │   └── nested
@@ -86,6 +86,45 @@ The output JSON follows the [Bulk Document API](http://wiki.apache.org/couchdb/H
   ]
 }
 ```
+
+The "push" task
+---------------
+
+### Overview
+
+In your project's Gruntfile, add a section named `push` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+  push: {
+    options: {
+      user: 'karin',
+      pass: 'secure'
+    },
+    app: {
+      files: 'http://localhost:5984/myapp': 'app.json'
+    }
+  }
+})
+```
+
+### Options
+
+You may also pass in all the options as command line arguments
+and avoid storing the auth credentials in your gruntfile.
+
+#### options.user
+Type: `String`
+Default value: `''`
+
+Your username.
+
+#### options.pass
+Type: `String`
+Default value: `''`
+
+Your password.
+
 
 Contributing
 ------------
