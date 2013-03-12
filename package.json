@@ -42,6 +42,8 @@
     "mime": "~1.2.9"
   },
   "keywords": [
-    "gruntplugin"
+    "gruntplugin",
+    "couchapp",
+    "couchdb"
   ]
 }
