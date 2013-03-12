@@ -114,14 +114,10 @@ You may also pass in all the options as command line arguments
 and avoid storing the auth credentials in your gruntfile.
 
 #### options.user
-Type: `String`
-Default value: `''`
 
 Your username.
 
 #### options.pass
-Type: `String`
-Default value: `''`
 
 Your password.
 
