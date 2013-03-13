@@ -24,16 +24,16 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-couch');
 ```
 
-The "ddoc" task
+The "couch" task
 ---------------
 
 ### Overview
 
-In your project's Gruntfile, add a section named `ddoc` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `couch` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  ddoc: {
+  couch: {
     app: {
       files: 'app.json': 'app'
     }
@@ -41,12 +41,12 @@ grunt.initConfig({
 })
 ```
 
-This will load the Couchapp like directory tree from `app` and creates an `app.json` JSON file.
+This will load the directory tree from `app` and creates an `app.json` JSON file.
 
 See [Configuring tasks: Files](http://gruntjs.com/configuring-tasks#files) for more information
 about possible source and target configurations.
 
-### The Couchapp Directory Tree
+### The Couch Directory Tree
 
 is quiet self-explanatory. For example:
 
@@ -73,6 +73,21 @@ app
         ├── map.js
         └── reduce
 ```
+
+For property names the file extensions will be stripped.
+
+Files inside the `\_attachments` directory are handled special:
+They become attachment entries of the form
+
+```js
+"a/nested/file.txt": {
+  "data": "SGVsbG8gV29ybGQhCg==",
+  "content_type": "text/plain"
+}
+```
+
+The `content\_type` is quessed using [mime](https://github.com/broofa/node-mime).
+`data` is the base64 encoded value of the file.
 
 ### Output JSON
 

@@ -63,7 +63,7 @@ module.exports = function(grunt) {
     return doc;
   }
 
-  grunt.registerMultiTask('ddoc', 'Compile CouchDB JSON documents from directory tree.', function() {
+  grunt.registerMultiTask('couch', 'Compile CouchDB JSON documents from directory tree.', function() {
     this.files.forEach(function(file) {
       var docs = compileDocs(file.src);
 
