@@ -1,5 +1,5 @@
 function(doc, req) {
   return {
-    body: 'Hello World'
+    body: require('lib/shows/hello')
   }
 }

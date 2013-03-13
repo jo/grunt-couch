@@ -13,13 +13,6 @@ module.exports = function(grunt) {
   var path = require('path');
   var mime = require('mime');
 
-  function readFile(filename) {
-    if (filename.match(/\.json$/)) {
-      return grunt.file.readJSON(filename);
-    }
-    return grunt.file.read(filename).trim();
-  }
-
   function compileDocs(dirs) {
     return {
       docs: dirs.map(compile)
@@ -31,66 +24,46 @@ module.exports = function(grunt) {
 
     grunt.log.write('Compiling ' + dir + '...');
 
-    [
-      '_id',
-      'language',
-      'views',
-      'shows',
-      'lists',
-      'rewrites.json',
-      'validate_doc_update.js'
-    ].forEach(function(file) {
-      var filename = path.join(dir, file);
+    var files = grunt.file.expand({
+      filter: 'isFile',
+      matchBase: true,
+      cwd: dir
+    }, '*');
 
-      if (!grunt.file.exists(filename)) {
-        return;
-      }
+    files.forEach(function(filename) {
+      var name;
+      var parts = filename.split('/');
+      var abspath = path.join(dir, filename);
 
-      if (grunt.file.isFile(filename)) {
-        var name = file.replace(/\.[^\.]*$/, '');
-        doc[name] = readFile(filename);
-      } else {
-        grunt.file.recurse(filename, function(abspath, rootdir, subdir, f) {
-          if (!grunt.file.isFile(abspath)) {
-            return;
-          }
-
-          var parts = path.relative(dir, abspath).split('/');
-          parts.pop();
-          var part = parts.reduce(function(result, key) {
-            result[key] = result[key] || {};
-            return result[key];
-          }, doc);
-
-          var name = f.replace(/\.[^\.]*$/, '');
-          part[name] = readFile(abspath); 
-        });
-      }
-    });
-    
-    // attachments
-    var dirname = path.join(dir, '_attachments');
-    if (grunt.file.exists(dirname)) {
-      doc._attachments = {};
-      grunt.file.recurse(dirname, function(abspath, rootdir, subdir, file) {
-        if (!grunt.file.isFile(abspath)) {
-          return;
-        }
-
-        var name = path.relative(dirname, abspath);
+      if (parts[0] === '_attachments') {
+        parts.shift();
+        name = parts.join('/');
+        doc._attachments = doc._attachments || {};
         doc._attachments[name] = {
           data: grunt.file.read(abspath, { encoding: null }).toString('base64'),
           content_type: mime.lookup(abspath)
         };
-      });
-    }
+      } else {
+        name = parts.pop().replace(/\.[^\.]*$/, '');
+        var part = parts.reduce(function(result, key) {
+          result[key] = result[key] || {};
+          return result[key];
+        }, doc);
+
+        if (filename.match(/\.json$/)) {
+          part[name] = grunt.file.readJSON(abspath);
+        } else {
+          part[name] = grunt.file.read(abspath).trim();
+        }
+      }
+    });
 
     grunt.log.ok();
     
     return doc;
   }
 
-  grunt.registerMultiTask('ddoc', 'Compile CouchDB design documents from Couchapp like directory tree.', function() {
+  grunt.registerMultiTask('ddoc', 'Compile CouchDB JSON documents from directory tree.', function() {
     this.files.forEach(function(file) {
       var docs = compileDocs(file.src);
 
