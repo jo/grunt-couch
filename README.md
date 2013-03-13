@@ -74,15 +74,23 @@ app
         └── reduce
 ```
 
-For property names the file extensions will be stripped.
+For the property name the file extension will be stripped:
+
+```js
+{
+  "validate_doc_update": "content of validate_doc_update.js",
+}
+```
 
 Files inside the `\_attachments` directory are handled special:
 They become attachment entries of the form
 
 ```js
-"a/nested/file.txt": {
-  "data": "SGVsbG8gV29ybGQhCg==",
-  "content_type": "text/plain"
+{
+  "a/nested/file.txt": {
+    "data": "SGVsbG8gV29ybGQhCg==",
+    "content_type": "text/plain"
+  }
 }
 ```
 
