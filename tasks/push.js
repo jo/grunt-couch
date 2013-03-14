@@ -99,7 +99,7 @@ module.exports = function(grunt) {
           count--;
           if (!count) {
             if (!errors) {
-              grunt.log.ok(urls + ' database' + (urls.length === 1 ? '' : 's') + ' deployed');
+              grunt.log.ok(urls + ' database' + (urls === 1 ? '' : 's') + ' deployed');
             }
             done(!errors);
           }
