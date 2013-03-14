@@ -29,9 +29,10 @@ module.exports = function(grunt) {
     req(url + '/_all_docs', { body: keys }, function(err, resp, data) {
       if (data && data.rows) {
         for (var i = 0; i < data.rows.length; i++) {
-          doc.docs[i]._rev = data.rows[i].value.rev;
+          if (data.rows[i].value) {
+            doc.docs[i]._rev = data.rows[i].value.rev;
+          }
         }
-        doc._rev = data._rev;
       }
       req(url + '/_bulk_docs', { body: doc }, function(err, resp, data) {
         var ok = resp.statusCode === 201;
