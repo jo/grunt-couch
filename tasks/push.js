@@ -87,6 +87,7 @@ module.exports = function(grunt) {
 
     var done = this.async();
     var count = this.files.reduce(function(sum, file) { return sum + file.src.length; }, 0);
+    var urls = this.files.length;
     var errors = 0;
     this.files.forEach(function(file) {
       file.src.forEach(function(src) {
@@ -97,6 +98,9 @@ module.exports = function(grunt) {
           }
           count--;
           if (!count) {
+            if (!errors) {
+              grunt.log.ok(urls + ' database' + (urls.length === 1 ? '' : 's') + ' deployed');
+            }
             done(!errors);
           }
         });
