@@ -12,6 +12,9 @@
         }
       },
       "_id": "_design/full",
+      "filters": {
+        "doc": "function(doc, req) {\n  return doc.type === 'doc';\n}"
+      },
       "language": "javascript",
       "lib": {
         "shows": {
@@ -30,6 +33,9 @@
       "shows": {
         "doc": "function(doc, req) {\n  return {\n    body: 'Hello #' + doc.number\n  }\n}",
         "hello": "function(doc, req) {\n  return {\n    body: require('lib/shows/hello')\n  }\n}"
+      },
+      "updates": {
+        "doc": "function(doc, req) {\n  doc = doc || {};\n\n  for (var field in req.form) {\n    doc[field] = req.form[field];\n  }\n  doc.type = 'doc';\n\n  return [doc, 'updated doc'];\n}"
       },
       "validate_doc_update": "function(newDoc, oldDoc, userCtx, secObj) {\n  if (typeof newDoc.number !== 'number') {\n    throw({ forbidden: 'Document must have a number.' });\n  }\n}",
       "views": {
