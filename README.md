@@ -1,5 +1,5 @@
-grunt-couch
-================
+grunt-couch [![Build Status](https://secure.travis-ci.org/jo/grunt-couch.png?branch=master)](http://travis-ci.org/jo/grunt-couch)
+===========
 
 Compile CouchDB design documents from Couchapp like directory tree.
 
