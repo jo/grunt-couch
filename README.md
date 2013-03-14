@@ -74,6 +74,10 @@ app
         └── reduce
 ```
 
+`grunt-couch` uses the same filesystem mapping like [Couchapp python tool](http://couchapp.org/page/couchapp-python)
+and [Erika](https://github.com/benoitc/erica):
+[The Couchapp Filesystem Mapping](http://couchapp.org/page/filesystem-mapping).
+
 For the property name the file extension will be stripped:
 
 ```js
@@ -96,6 +100,8 @@ They become attachment entries of the form
 
 The `content\_type` is quessed using [mime](https://github.com/broofa/node-mime).
 `data` is the base64 encoded value of the file.
+
+Read more about so called [Inline Attachments](http://wiki.apache.org/couchdb/HTTP_Document_API#Inline_Attachments).
 
 ### Output JSON
 
