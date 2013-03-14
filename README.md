@@ -101,7 +101,7 @@ They become attachment entries of the form
 The `content\_type` is quessed using [mime](https://github.com/broofa/node-mime).
 `data` is the base64 encoded value of the file.
 
-Read more about so called [Inline Attachments](http://wiki.apache.org/couchdb/HTTP_Document_API#Inline_Attachments).
+Read more about the so called [Inline Attachments](http://wiki.apache.org/couchdb/HTTP_Document_API#Inline_Attachments).
 
 ### Output JSON
 
