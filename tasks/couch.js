@@ -9,17 +9,18 @@
 'use strict';
 
 module.exports = function(grunt) {
-
   var path = require('path');
   var mime = require('mime');
 
-  function compileDocs(dirs) {
+  function compileDocs(dirs, options) {
     return {
-      docs: dirs.map(compile)
+      docs: dirs.map(function(dir) {
+        return compile(dir, options);
+      })
     };
   }
 
-  function compile(dir) {
+  function compile(dir, options) {
     var doc = {};
 
     grunt.log.write('Compiling ' + dir + '...');
@@ -28,7 +29,7 @@ module.exports = function(grunt) {
       filter: 'isFile',
       matchBase: true,
       cwd: dir
-    }, '*');
+    }, options.pattern);
 
     files.forEach(function(filename) {
       var name;
@@ -64,13 +65,16 @@ module.exports = function(grunt) {
   }
 
   grunt.registerMultiTask('couch', 'Compile CouchDB JSON documents from directory tree.', function() {
+    var options = this.options({
+      pattern: '*'
+    });
+
     this.files.forEach(function(file) {
-      var docs = compileDocs(file.src);
+      var docs = compileDocs(file.src, options);
 
       grunt.log.write('Writing ' + file.dest + '...');
       grunt.file.write(file.dest, JSON.stringify(docs, '\n', '  '));
       grunt.log.ok();
     });
   });
-
 };
