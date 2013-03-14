@@ -119,6 +119,10 @@ The output JSON follows the [Bulk Document API](http://wiki.apache.org/couchdb/H
 The "push" task
 ---------------
 
+With the `push` task you deploy your documents to CouchDB.
+
+The database is created if not already present.
+
 ### Overview
 
 In your project's Gruntfile, add a section named `push` to the data object passed into `grunt.initConfig()`.
