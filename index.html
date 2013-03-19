@@ -28,32 +28,156 @@
         </ul>
       </header>
       <section>
-        <h3>Welcome to GitHub Pages.</h3>
+        <h1>grunt-couch <a href="http://travis-ci.org/jo/grunt-couch"><img src="https://secure.travis-ci.org/jo/grunt-couch.png?branch=master" alt="Build Status"></a>
+</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>Compile CouchDB design documents from Couchapp like directory tree.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<h2>Getting Started</h2>
+
+<p>This plugin requires Grunt <code>~0.4.0</code></p>
+
+<p>If you haven't used <a href="http://gruntjs.com/">Grunt</a> before,
+be sure to check out the <a href="http://gruntjs.com/getting-started">Getting Started</a> guide,
+as it explains how to create a <a href="http://gruntjs.com/sample-gruntfile">Gruntfile</a> as well as install and use Grunt plugins.
+Once you're familiar with that process, you may install this plugin with this command:</p>
+
+<pre lang="shell"><code>npm install grunt-couch --save-dev
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:</p>
 
-<h3>Designer Templates</h3>
+<div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">'grunt-couch'</span><span class="p">);</span>
+</pre></div>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<h2>The "couch" task</h2>
 
-<h3>Rather Drive Stick?</h3>
+<h3>Overview</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>In your project's Gruntfile, add a section named <code>couch</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
 
-<h3>Authors and Contributors</h3>
+<div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+  <span class="nx">couch</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="s1">'app.json'</span><span class="o">:</span> <span class="s1">'app'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>This will load the directory tree from <code>app</code> and creates an <code>app.json</code> JSON file.</p>
 
-<h3>Support or Contact</h3>
+<p>See <a href="http://gruntjs.com/configuring-tasks#files">Configuring tasks: Files</a> for more information
+about possible source and target configurations.</p>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h3>The Couch Directory Tree</h3>
+
+<p>is quiet self-explanatory. For example:</p>
+
+<pre lang="shell"><code>app
+├── _attachments
+│   ├── a
+│   │   └── nested
+│   │       └── file.txt
+│   └── index.html
+├── _id
+├── language
+├── lists
+│   └── docs.js
+├── rewrites.json
+├── shows
+│   ├── doc.js
+│   └── hello.js
+├── validate_doc_update.js
+└── views
+    ├── names
+    │   └── map.js
+    └── numbers
+        ├── map.js
+        └── reduce
+</code></pre>
+
+<p><code>grunt-couch</code> uses the same filesystem mapping like <a href="http://couchapp.org/page/couchapp-python">Couchapp python tool</a>
+and <a href="https://github.com/benoitc/erica">Erika</a>:</p>
+
+<p><a href="http://couchapp.org/page/filesystem-mapping">The Couchapp Filesystem Mapping</a>.</p>
+
+<p>For the property name the file extension will be stripped:</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">"validate_doc_update"</span><span class="o">:</span> <span class="s2">"content of validate_doc_update.js"</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>Files inside the <code>\_attachments</code> directory are handled special:
+They become attachment entries of the form</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">"a/nested/file.txt"</span><span class="o">:</span> <span class="p">{</span>
+    <span class="s2">"data"</span><span class="o">:</span> <span class="s2">"SGVsbG8gV29ybGQhCg=="</span><span class="p">,</span>
+    <span class="s2">"content_type"</span><span class="o">:</span> <span class="s2">"text/plain"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>The <code>content\_type</code> is quessed using <a href="https://github.com/broofa/node-mime">mime</a>.
+<code>data</code> is the base64 encoded value of the file.</p>
+
+<p>Read more about the so called <a href="http://wiki.apache.org/couchdb/HTTP_Document_API#Inline_Attachments">Inline Attachments</a>.</p>
+
+<h3>Output JSON</h3>
+
+<p>The output JSON follows the <a href="http://wiki.apache.org/couchdb/HTTP_Bulk_Document_API">Bulk Document API</a>:</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+  <span class="s2">"docs"</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="s2">"_id"</span><span class="o">:</span> <span class="s2">"adoc"</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="s2">"_id"</span><span class="o">:</span> <span class="s2">"anotherdoc"</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>The "push" task</h2>
+
+<p>With the <code>push</code> task you deploy your documents to CouchDB.</p>
+
+<p>The database is created if not already present.</p>
+
+<h3>Overview</h3>
+
+<p>In your project's Gruntfile, add a section named <code>push</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
+
+<div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+  <span class="nx">push</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">user</span><span class="o">:</span> <span class="s1">'karin'</span><span class="p">,</span>
+      <span class="nx">pass</span><span class="o">:</span> <span class="s1">'secure'</span>
+    <span class="p">},</span>
+    <span class="nx">app</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="s1">'http://localhost:5984/myapp'</span><span class="o">:</span> <span class="s1">'app.json'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+
+<h3>Options</h3>
+
+<p>You may also pass in all the options as command line arguments
+and avoid storing the auth credentials in your gruntfile.</p>
+
+<h4>options.user</h4>
+
+<p>Your username.</p>
+
+<h4>options.pass</h4>
+
+<p>Your password.</p>
+
+<h2>Contributing</h2>
+
+<p>In lieu of a formal styleguide, take care to maintain the existing coding style.
+Add unit tests for any new or changed functionality.
+Lint and test your code using <a href="http://gruntjs.com/">Grunt</a>.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/jo">jo</a></p>
