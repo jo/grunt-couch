@@ -35,7 +35,9 @@ In your project's Gruntfile, add a section named `couch` to the data object pass
 grunt.initConfig({
   couch: {
     app: {
-      files: 'app.json': 'app'
+      files: {
+        'tmp/app.json': 'couch/*'
+      }
     }
   }
 })
@@ -45,6 +47,31 @@ This will load the directory tree from `app` and creates an `app.json` JSON file
 
 See [Configuring tasks: Files](http://gruntjs.com/configuring-tasks#files) for more information
 about possible source and target configurations.
+
+### Options
+
+#### options.merge
+
+Your can specify a directory which will be merged into all docs.
+This is useful to provide defaults like templates and libs which are used in all ddocs.
+
+Eg:
+
+```js
+grunt.initConfig({
+  couch: {
+    app: {
+      config: {
+        merge: 'couch/shared'
+      },
+      files: {
+        'tmp/app.json': 'couch/*'
+      }
+    }
+  }
+})
+```
+
 
 ### The Couch Directory Tree
 
@@ -135,8 +162,10 @@ grunt.initConfig({
       user: 'karin',
       pass: 'secure'
     },
-    app: {
-      files: 'http://localhost:5984/myapp': 'app.json'
+    localhost: {
+      files: {
+        'http://localhost:5984/myapp': 'app.json'
+      }
     }
   }
 })

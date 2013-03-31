@@ -13,17 +13,26 @@ module.exports = function(grunt) {
   var mime = require('mime');
 
   function compileDocs(dirs, options) {
+    var shared = {};
+
+    if (options.merge) {
+      grunt.log.write('Compiling shared ' + options.merge + '...');
+      shared = compile(options.merge, options);
+      grunt.log.ok();
+    }
+
     return {
       docs: dirs.map(function(dir) {
-        return compile(dir, options);
+        grunt.log.write('Compiling ' + dir + '...');
+        var doc = grunt.util._.merge(shared, compile(dir, options));
+        grunt.log.ok();
+        return doc;
       })
     };
   }
 
   function compile(dir, options) {
     var doc = {};
-
-    grunt.log.write('Compiling ' + dir + '...');
 
     var files = grunt.file.expand({
       filter: 'isFile',
@@ -58,8 +67,6 @@ module.exports = function(grunt) {
         }
       }
     });
-
-    grunt.log.ok();
     
     return doc;
   }
