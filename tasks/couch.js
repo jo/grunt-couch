@@ -24,7 +24,7 @@ module.exports = function(grunt) {
     return {
       docs: dirs.map(function(dir) {
         grunt.log.write('Compiling ' + dir + '...');
-        var doc = grunt.util._.merge(shared, compile(dir, options));
+        var doc = grunt.util._.merge({}, shared, compile(dir, options));
         grunt.log.ok();
         return doc;
       })
