@@ -70,12 +70,16 @@ module.exports = function(grunt) {
     });
 
     this.files.forEach(function(file) {
-      var docs = compileDocs(file.src, options);
+      // only use dirs where an _id file is present
+      var sources = file.src.filter(function(dir) {
+        return grunt.file.isFile(path.join(dir, '_id'));
+      });
+      var docs = compileDocs(sources, options);
 
       grunt.log.write('Writing ' + file.dest + '...');
       grunt.file.write(file.dest, JSON.stringify(docs, '\n', '  '));
       grunt.log.ok();
-      grunt.log.ok(file.src.length + ' doc' + (file.src.length === 1 ? '' : 's') + ' compiled');
+      grunt.log.ok(sources.length + ' doc' + (file.src.length === 1 ? '' : 's') + ' compiled');
     });
   });
 };
