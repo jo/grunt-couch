@@ -53,5 +53,14 @@ exports.couch = {
     test.equal(actual, expected, 'should compile multiple docs.');
 
     test.done();
+  },
+  merge: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/merge.json');
+    var expected = grunt.file.read('test/expected/merge.json');
+    test.equal(actual, expected, 'should merge properties from shared doc.');
+
+    test.done();
   }
 };

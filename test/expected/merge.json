@@ -1,0 +1,12 @@
+{
+  "docs": [
+    {
+      "lib": {
+        "mylib": "mycode",
+        "otherlib": "othercodeoverwritten"
+      },
+      "_id": "_design/app",
+      "language": "javascript"
+    }
+  ]
+}

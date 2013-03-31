@@ -43,6 +43,14 @@ module.exports = function(grunt) {
         files: {
           'tmp/advanced.json': 'test/fixtures/advanced/*'
         }
+      },
+      merge: {
+        options: {
+          merge: 'test/fixtures/merge/shared'
+        },
+        files: {
+          'tmp/merge.json': 'test/fixtures/merge/*'
+        }
       }
     },
 
