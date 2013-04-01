@@ -35,7 +35,7 @@
 
 <h2>Getting Started</h2>
 
-<p>This plugin requires Grunt <code>~0.4.0</code></p>
+<p>This plugin requires Grunt <code>~0.4.1</code></p>
 
 <p>If you haven't used <a href="http://gruntjs.com/">Grunt</a> before,
 be sure to check out the <a href="http://gruntjs.com/getting-started">Getting Started</a> guide,
@@ -50,16 +50,18 @@ Once you're familiar with that process, you may install this plugin with this co
 <div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">'grunt-couch'</span><span class="p">);</span>
 </pre></div>
 
-<h2>The "couch" task</h2>
+<h2>The "couch-compile" task</h2>
 
 <h3>Overview</h3>
 
-<p>In your project's Gruntfile, add a section named <code>couch</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
+<p>In your project's Gruntfile, add a section named <code>couch-compile</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
 
 <div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
-  <span class="nx">couch</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s1">'couch-compile'</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">app</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">files</span><span class="o">:</span> <span class="s1">'app.json'</span><span class="o">:</span> <span class="s1">'app'</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">'tmp/app.json'</span><span class="o">:</span> <span class="s1">'couch/*'</span>
+      <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">})</span>
@@ -69,6 +71,29 @@ Once you're familiar with that process, you may install this plugin with this co
 
 <p>See <a href="http://gruntjs.com/configuring-tasks#files">Configuring tasks: Files</a> for more information
 about possible source and target configurations.</p>
+
+<h3>Options</h3>
+
+<h4>options.merge</h4>
+
+<p>Your can specify a directory which will be merged into all docs.
+This is useful to provide defaults like templates and libs which are used in all ddocs.</p>
+
+<p>Eg:</p>
+
+<div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+  <span class="s1">'couch-compile'</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">app</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">config</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">merge</span><span class="o">:</span> <span class="s1">'couch/shared'</span>
+      <span class="p">},</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">'tmp/app.json'</span><span class="o">:</span> <span class="s1">'couch/*'</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
 
 <h3>The Couch Directory Tree</h3>
 
@@ -137,28 +162,83 @@ They become attachment entries of the form</p>
 <span class="p">}</span>
 </pre></div>
 
-<h2>The "push" task</h2>
+<h2>The "couch-push" task</h2>
 
-<p>With the <code>push</code> task you deploy your documents to CouchDB.</p>
+<p>With the <code>couch-push</code> task you deploy your documents to CouchDB.</p>
 
 <p>The database is created if not already present.</p>
 
 <h3>Overview</h3>
 
-<p>In your project's Gruntfile, add a section named <code>push</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
+<p>In your project's Gruntfile, add a section named <code>couch-push</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
 
 <div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
-  <span class="nx">push</span><span class="o">:</span> <span class="p">{</span>
+  <span class="s1">'couch-push'</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
       <span class="nx">user</span><span class="o">:</span> <span class="s1">'karin'</span><span class="p">,</span>
       <span class="nx">pass</span><span class="o">:</span> <span class="s1">'secure'</span>
     <span class="p">},</span>
-    <span class="nx">app</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">files</span><span class="o">:</span> <span class="s1">'http://localhost:5984/myapp'</span><span class="o">:</span> <span class="s1">'app.json'</span>
+    <span class="nx">localhost</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">'http://localhost:5984/myapp'</span><span class="o">:</span> <span class="s1">'app.json'</span>
+      <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">})</span>
 </pre></div>
+
+<h3>Options</h3>
+
+<p>You may also pass in all the options as command line arguments
+and avoid storing the auth credentials in your gruntfile.</p>
+
+<h4>options.user</h4>
+
+<p>Your username.</p>
+
+<h4>options.pass</h4>
+
+<p>Your password.</p>
+
+<h2>The "couch" task</h2>
+
+<p>This is an <a href="http://www.google.com/intl/de/landing/nose/help.html">Alias task</a> for
+<code>couch-compile</code> and <code>couch-push</code>.
+It first compiles and then pushs the documents.</p>
+
+<h2>The "couch-configure" task</h2>
+
+<p>You can write <a href="http://wiki.apache.org/couchdb/Complete_HTTP_API_Reference#configuration">CouchDB configuration</a>
+from project files with <code>couch-configure</code>.</p>
+
+<p>This comes in handy when you are using <a href="http://wiki.apache.org/couchdb/Virtual_Hosts">Virtual Hosts</a>
+or when your app requires custom configuration options in order to work.</p>
+
+<h3>Overview</h3>
+
+<p>In your project's Gruntfile, add a section named <code>couch-configure</code> to the data object passed into <code>grunt.initConfig()</code>.</p>
+
+<div class="highlight"><pre><span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span><span class="p">({</span>
+  <span class="s1">'couch-configure'</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">options</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">user</span><span class="o">:</span> <span class="s1">'karin'</span><span class="p">,</span>
+      <span class="nx">pass</span><span class="o">:</span> <span class="s1">'secure'</span>
+    <span class="p">},</span>
+    <span class="nx">localhost</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">'http://localhost:5984'</span><span class="o">:</span> <span class="s1">'config'</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+
+<p>Now write your configuration options in plain files, eg:</p>
+
+<pre lang="shell"><code>config/
+└── vhosts
+    └── myapp.localhost
+</code></pre>
 
 <h3>Options</h3>
 
@@ -178,6 +258,20 @@ and avoid storing the auth credentials in your gruntfile.</p>
 <p>In lieu of a formal styleguide, take care to maintain the existing coding style.
 Add unit tests for any new or changed functionality.
 Lint and test your code using <a href="http://gruntjs.com/">Grunt</a>.</p>
+
+<h2>Release History</h2>
+
+<ul>
+<li>01.04,2013   1.0.0   Rename <code>couch</code> to <code>couch-compile</code> and <code>push</code> to <code>couch-push</code>. New task: <code>couch-configure</code>
+</li>
+<li>31.03.2013   0.5.2   Introduce <code>merge</code> option</li>
+<li>14.03.2013   0.4.3   Create database if not exist, improved messages</li>
+<li>13.03.2013   0.4.0   Rename task <code>ddoc</code> to <code>couch</code>
+</li>
+<li>11.03.2013   0.3.0   Use different tasks for compilation (<code>ddoc</code>) and <code>push</code>
+</li>
+<li>20.02.2013   0.1.0   Initial Release</li>
+</ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/jo">jo</a></p>
