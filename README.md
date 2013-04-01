@@ -1,13 +1,11 @@
-grunt-couch [![Build Status](https://secure.travis-ci.org/jo/grunt-couch.png?branch=master)](http://travis-ci.org/jo/grunt-couch)
-===========
+# grunt-couch [![Build Status](https://secure.travis-ci.org/jo/grunt-couch.png?branch=master)](http://travis-ci.org/jo/grunt-couch)
 
 Compile CouchDB design documents from Couchapp like directory tree.
 
 
-Getting Started
----------------
+## Getting Started
 
-This plugin requires Grunt `~0.4.0`
+This plugin requires Grunt `~0.4.1`
 
 If you haven't used [Grunt](http://gruntjs.com/) before,
 be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide,
@@ -24,16 +22,15 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-couch');
 ```
 
-The "couch" task
----------------
+## The "couch-compile" task
 
 ### Overview
 
-In your project's Gruntfile, add a section named `couch` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `couch-compile` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  couch: {
+  'couch-compile': {
     app: {
       files: {
         'tmp/app.json': 'couch/*'
@@ -59,7 +56,7 @@ Eg:
 
 ```js
 grunt.initConfig({
-  couch: {
+  'couch-compile': {
     app: {
       config: {
         merge: 'couch/shared'
@@ -144,20 +141,19 @@ The output JSON follows the [Bulk Document API](http://wiki.apache.org/couchdb/H
 }
 ```
 
-The "push" task
----------------
+## The "couch-push" task
 
-With the `push` task you deploy your documents to CouchDB.
+With the `couch-push` task you deploy your documents to CouchDB.
 
 The database is created if not already present.
 
 ### Overview
 
-In your project's Gruntfile, add a section named `push` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `couch-push` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  push: {
+  'couch-push': {
     options: {
       user: 'karin',
       pass: 'secure'
@@ -185,10 +181,75 @@ Your username.
 Your password.
 
 
-Contributing
-------------
+## The "couch" task
+
+This is an [Alias task](http://www.google.com/intl/de/landing/nose/help.html) for
+`couch-compile` and `couch-push`.
+It first compiles and then pushs the documents.
+
+
+## The "couch-configure" task
+
+You can write [CouchDB configuration](http://wiki.apache.org/couchdb/Complete_HTTP_API_Reference#configuration)
+from project files with `couch-configure`.
+
+This comes in handy when you are using [Virtual Hosts](http://wiki.apache.org/couchdb/Virtual_Hosts)
+or when your app requires custom configuration options in order to work.
+
+### Overview
+
+In your project's Gruntfile, add a section named `couch-configure` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+  'couch-configure': {
+    options: {
+      user: 'karin',
+      pass: 'secure'
+    },
+    localhost: {
+      files: {
+        'http://localhost:5984': 'config'
+      }
+    }
+  }
+})
+```
+
+Now write your configuration options in plain files, eg:
+
+```shell
+config/
+└── vhosts
+    └── myapp.localhost
+```
+
+### Options
+
+You may also pass in all the options as command line arguments
+and avoid storing the auth credentials in your gruntfile.
+
+#### options.user
+
+Your username.
+
+#### options.pass
+
+Your password.
+
+
+## Contributing
 
 In lieu of a formal styleguide, take care to maintain the existing coding style.
 Add unit tests for any new or changed functionality.
 Lint and test your code using [Grunt](http://gruntjs.com/).
 
+
+## Release History
+
+ * 01.04,2013   1.0.0   Rename `couch` to `couch-compile` and `push` to `couch-push`. New task: `couch-configure`
+ * 31.03.2013   0.5.2   Introduce `merge` option
+ * 14.03.2013   0.4.3   Create database if not exist, improved messages
+ * 13.03.2013   0.4.0   Rename task `ddoc` to `couch`
+ * 11.03.2013   0.3.0   Use different tasks for compilation (`ddoc`) and `push`
+ * 20.02.2013   0.1.0   Initial Release

@@ -78,7 +78,7 @@ module.exports = function(grunt) {
     });
   }
 
-  grunt.registerMultiTask('push', 'Push CouchDB design documents.', function() {
+  grunt.registerMultiTask('couch-push', 'Push CouchDB design documents.', function() {
     // Merge task-specific and/or target-specific options with command line options and these defaults.
     var auth = {
       user: grunt.option('user') || this.options.user,
