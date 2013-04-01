@@ -86,7 +86,7 @@ module.exports = function(grunt) {
       grunt.log.write('Writing ' + file.dest + '...');
       grunt.file.write(file.dest, JSON.stringify(docs, '\n', '  '));
       grunt.log.ok();
-      grunt.log.ok(sources.length + ' doc' + (file.src.length === 1 ? '' : 's') + ' compiled');
+      grunt.log.ok(sources.length + ' ' + grunt.util.pluralize(file.src.length, 'doc/docs') + ' compiled');
     });
   });
 };
