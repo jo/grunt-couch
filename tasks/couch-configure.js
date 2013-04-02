@@ -41,6 +41,12 @@ module.exports = function(grunt) {
 
     var req = request.defaults(defaults);
     req(url + '/_config/' + config.key, { body: JSON.stringify(config.value) }, function(err, resp, data) {
+      if (err) {
+        grunt.log.error(err);
+        done(false);
+        return;
+      }
+
       if (resp.statusCode !== 200) {
         grunt.log.error(resp.statusCode, data);
       } else {

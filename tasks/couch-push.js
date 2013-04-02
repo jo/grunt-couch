@@ -13,6 +13,12 @@ module.exports = function(grunt) {
 
   function createDatabase(req, url, done) {
     req(url, { method: 'PUT' }, function(err, resp, data) {
+      if (err) {
+        grunt.log.error(err);
+        done(false);
+        return;
+      }
+
       var ok = resp.statusCode === 201;
       grunt.log.write('Creating database ' + url + '...');
       if (ok) {
@@ -26,6 +32,12 @@ module.exports = function(grunt) {
   
   function pushDocs(req, url, doc, done) {
     req(url + '/_bulk_docs', { body: doc }, function(err, resp, data) {
+      if (err) {
+        grunt.log.error(err);
+        done(false);
+        return;
+      }
+
       var ok = resp.statusCode === 201;
       grunt.log.write('Pushing ' + url + '...');
       if (ok) {
@@ -53,6 +65,12 @@ module.exports = function(grunt) {
 
     var req = request.defaults(defaults);
     req(url + '/_all_docs', { body: keys }, function(err, resp, data) {
+      if (err) {
+        grunt.log.error(err);
+        done(false);
+        return;
+      }
+
       grunt.log.write('Get revisions ' + url + '...');
       if (resp.statusCode === 200) {
         grunt.log.ok();
