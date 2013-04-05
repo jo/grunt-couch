@@ -32,19 +32,23 @@ module.exports = function(grunt) {
   
   function pushDocs(req, url, doc, done) {
     req(url + '/_bulk_docs', { body: doc }, function(err, resp, data) {
+      grunt.log.write('Pushing ' + url + '...');
+
       if (err) {
         grunt.log.error(err);
         done(false);
         return;
       }
 
-      var ok = resp.statusCode === 201;
-      grunt.log.write('Pushing ' + url + '...');
+      var ok = resp.statusCode === 201 &&
+        grunt.util._.all(data, function(d) { return d.ok; });
+
       if (ok) {
         grunt.log.ok();
       } else {
         grunt.log.error(resp.statusCode, data);
       }
+
       done(ok);
     });
   }
