@@ -64,8 +64,8 @@ module.exports = function(grunt) {
     });
 
     var auth = {
-      user: grunt.option('user') || this.options.user,
-      pass: grunt.option('pass') || this.options.pass
+      user: grunt.option('user') || options.user,
+      pass: grunt.option('pass') || options.pass
     };
 
     var done = this.async();

@@ -101,10 +101,12 @@ module.exports = function(grunt) {
   }
 
   grunt.registerMultiTask('couch-push', 'Push CouchDB design documents.', function() {
+    var options = this.options();
+
     // Merge task-specific and/or target-specific options with command line options and these defaults.
     var auth = {
-      user: grunt.option('user') || this.options.user,
-      pass: grunt.option('pass') || this.options.pass
+      user: grunt.option('user') || options.user,
+      pass: grunt.option('pass') || options.pass
     };
 
     var done = this.async();
