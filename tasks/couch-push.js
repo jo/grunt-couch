@@ -41,7 +41,7 @@ module.exports = function(grunt) {
       }
 
       var ok = resp.statusCode === 201 &&
-        grunt.util._.all(data, function(d) { return d.ok; });
+        grunt.util._.all(data, function(d) { return !d.error; });
 
       if (ok) {
         grunt.log.ok();
