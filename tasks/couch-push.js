@@ -88,7 +88,7 @@ module.exports = function(grunt) {
         return pushDocs(req, url, doc, done);
       }
 
-      if (resp.statusCode === 404 && data.reason === 'no_db_file') {
+      if (resp.statusCode === 404) {
         grunt.log.ok('none');
         return createDatabase(req, url, function(success) {
           pushDocs(req, url, doc, done);
