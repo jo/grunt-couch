@@ -238,6 +238,53 @@ Your username.
 Your password.
 
 
+## The "couch-security" task
+
+You can write [CouchDB _security Objects](http://couchdb.readthedocs.org/en/latest/json-structure.html#security-object)
+from project files with `couch-security`.
+
+### Overview
+
+In your project's Gruntfile, add a section named `couch-security` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+  'couch-security': {
+    options: {
+      user: 'karin',
+      pass: 'secure'
+    },
+    localhost: {
+      files: {
+        'http://localhost:5984/mydb': 'couch/mydb/security.json'
+      }
+    }
+  }
+})
+```
+
+Now write your configuration options in plain files, eg:
+
+```shell
+config/
+└── vhosts
+    └── myapp.localhost
+```
+
+### Options
+
+You may also pass in all the options as command line arguments
+and avoid storing the auth credentials in your gruntfile.
+
+#### options.user
+
+Your username.
+
+#### options.pass
+
+Your password.
+
+
 ## Contributing
 
 In lieu of a formal styleguide, take care to maintain the existing coding style.
