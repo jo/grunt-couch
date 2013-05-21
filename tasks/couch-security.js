@@ -23,6 +23,8 @@ module.exports = function(grunt) {
 
     var req = request.defaults(defaults);
     req(url + '/_security', { body: security }, function(err, resp, data) {
+      grunt.log.write(url + '...');
+
       if (err) {
         grunt.log.error(err);
         done(false);
