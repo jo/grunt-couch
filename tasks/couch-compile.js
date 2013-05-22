@@ -77,10 +77,16 @@ module.exports = function(grunt) {
     });
 
     this.files.forEach(function(file) {
-      // only use dirs where an _id file is present
-      var sources = file.src.filter(function(dir) {
-        return grunt.file.isFile(path.join(dir, '_id'));
-      });
+      var sources;
+
+      if (options.merge) {
+        sources = file.src.filter(function(dir) {
+          return dir !== options.merge;
+        });
+      } else {
+        sources = file.src;
+      }
+
       var docs = compileDocs(sources, options);
 
       grunt.log.write('Writing ' + file.dest + '...');
