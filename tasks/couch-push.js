@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         return;
       }
 
-      var ok = resp.statusCode === 201 &&
+      var ok = (resp.statusCode === 201 || resp.statusCode === 202) &&
         grunt.util._.all(data, function(d) { return !d.error; });
 
       if (ok) {
