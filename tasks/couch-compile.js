@@ -77,15 +77,15 @@ module.exports = function(grunt) {
     });
 
     this.files.forEach(function(file) {
-      var sources;
-
-      if (options.merge) {
-        sources = file.src.filter(function(dir) {
+      var sources = file.src.filter(function(dir) {
+        if (!grunt.file.isDir(dir)) {
+          return false;
+        }
+        if (options.merge) {
           return dir !== options.merge;
-        });
-      } else {
-        sources = file.src;
-      }
+        }
+        return true;
+      });
 
       var docs = compileDocs(sources, options);
 
