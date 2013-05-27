@@ -22,12 +22,17 @@ module.exports = function(grunt) {
     }
 
     return {
-      docs: dirs.map(function(dir) {
+      docs: grunt.util._.compact(dirs.map(function(dir) {
+        if (options.merge && dir === options.merge) {
+          return null;
+        }
+
         grunt.log.write('Compiling ' + dir + '...');
-        var doc = grunt.util._.merge({}, shared, compile(dir, options));
+        var doc = grunt.file.isDir(dir) ? grunt.util._.merge({}, shared, compile(dir, options)) : grunt.file.readJSON(dir);
         grunt.log.ok();
+
         return doc;
-      })
+      }))
     };
   }
 
@@ -77,22 +82,12 @@ module.exports = function(grunt) {
     });
 
     this.files.forEach(function(file) {
-      var sources = file.src.filter(function(dir) {
-        if (!grunt.file.isDir(dir)) {
-          return false;
-        }
-        if (options.merge) {
-          return dir !== options.merge;
-        }
-        return true;
-      });
-
-      var docs = compileDocs(sources, options);
+      var docs = compileDocs(file.src, options);
 
       grunt.log.write('Writing ' + file.dest + '...');
       grunt.file.write(file.dest, JSON.stringify(docs, '\n', '  '));
       grunt.log.ok();
-      grunt.log.ok(sources.length + ' ' + grunt.util.pluralize(file.src.length, 'doc/docs') + ' compiled');
+      grunt.log.ok(file.src.length + ' ' + grunt.util.pluralize(file.src.length, 'doc/docs') + ' compiled');
     });
   });
 };

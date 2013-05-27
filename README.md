@@ -263,14 +263,6 @@ grunt.initConfig({
 })
 ```
 
-Now write your configuration options in plain files, eg:
-
-```shell
-config/
-└── vhosts
-    └── myapp.localhost
-```
-
 ### Options
 
 You may also pass in all the options as command line arguments
