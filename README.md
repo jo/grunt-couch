@@ -324,13 +324,3 @@ Your password.
 In lieu of a formal styleguide, take care to maintain the existing coding style.
 Add unit tests for any new or changed functionality.
 Lint and test your code using [Grunt](http://gruntjs.com/).
-
-
-## Release History
-
- * 01.04,2013   1.0.0   Rename `couch` to `couch-compile` and `push` to `couch-push`. New task: `couch-configure`
- * 31.03.2013   0.5.2   Introduce `merge` option
- * 14.03.2013   0.4.3   Create database if not exist, improved messages
- * 13.03.2013   0.4.0   Rename task `ddoc` to `couch`
- * 11.03.2013   0.3.0   Use different tasks for compilation (`ddoc`) and `push`
- * 20.02.2013   0.1.0   Initial Release
