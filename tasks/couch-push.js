@@ -89,7 +89,6 @@ module.exports = function(grunt) {
       }
 
       if (resp.statusCode === 404) {
-        grunt.log.ok('none');
         return createDatabase(req, url, function(success) {
           pushDocs(req, url, doc, done);
         });

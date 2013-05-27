@@ -277,6 +277,48 @@ Your username.
 Your password.
 
 
+## The "couch-replication" task
+
+You can write [CouchDB _replicator Documents](http://couchdb.readthedocs.org/en/latest/replication.html)
+from project files with `couch-replication`.
+
+If there is already a replication document, it will gets deleted and recreated,
+which causes the replication to restart.
+
+### Overview
+
+In your project's Gruntfile, add a section named `couch-replication` to the data object passed into `grunt.initConfig()`.
+
+```js
+grunt.initConfig({
+  'couch-replication': {
+    options: {
+      user: 'karin',
+      pass: 'secure'
+    },
+    localhost: {
+      files: {
+        'http://localhost:5984': 'couch/replications/*.json'
+      }
+    }
+  }
+})
+```
+
+### Options
+
+You may also pass in all the options as command line arguments
+and avoid storing the auth credentials in your gruntfile.
+
+#### options.user
+
+Your username.
+
+#### options.pass
+
+Your password.
+
+
 ## Contributing
 
 In lieu of a formal styleguide, take care to maintain the existing coding style.
