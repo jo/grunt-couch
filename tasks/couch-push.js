@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     req(url, { method: 'PUT' }, function(err, resp, data) {
       if (err) {
         grunt.log.error(err);
-        done(false);
+        done(err);
         return;
       }
 
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
       } else {
         grunt.log.error(resp.statusCode, data);
       }
-      done(ok);
+      done(null);
     });
   }
   
@@ -36,7 +36,7 @@ module.exports = function(grunt) {
 
       if (err) {
         grunt.log.error(err);
-        done(false);
+        done(err);
         return;
       }
 
@@ -49,7 +49,7 @@ module.exports = function(grunt) {
         grunt.log.error(resp.statusCode, data);
       }
 
-      done(ok);
+      done(null);
     });
   }
   
@@ -71,7 +71,7 @@ module.exports = function(grunt) {
     req(url + '/_all_docs', { body: keys }, function(err, resp, data) {
       if (err) {
         grunt.log.error(err);
-        done(false);
+        done(err);
         return;
       }
 
@@ -89,13 +89,14 @@ module.exports = function(grunt) {
       }
 
       if (resp.statusCode === 404) {
+        grunt.log.ok('database does not exist');
         return createDatabase(req, url, function(success) {
           pushDocs(req, url, doc, done);
         });
       }
 
       grunt.log.error(resp.statusCode, data);
-      done(false);
+      done(data);
     });
   }
 
@@ -109,25 +110,23 @@ module.exports = function(grunt) {
     };
 
     var done = this.async();
-    var count = this.files.reduce(function(sum, file) { return sum + file.src.length; }, 0);
-    var urls = this.files.length;
-    var errors = 0;
-    this.files.forEach(function(file) {
-      file.src.forEach(function(src) {
-        var doc = grunt.file.readJSON(src);
-        push(doc, file.dest, auth, function(success) {
-          if (!success) {
-            errors++;
-          }
-          count--;
-          if (!count) {
-            if (!errors) {
-              grunt.log.ok(urls + ' ' + grunt.util.pluralize(urls, 'database/databases') + ' deployed');
-            }
-            done(!errors);
-          }
-        });
-      });
+    var files = this.files;
+    grunt.util.async.map(files, function(file, done) {
+      grunt.util.async.map(file.src, function(src, next) {
+        push(grunt.file.readJSON(src), file.dest, auth, next);
+      }, done);
+    }, function(err) {
+      if (err) {
+        grunt.log.error(err);
+        done(false);
+        return;
+      }
+            
+      grunt.log.ok(files.length + ' ' + grunt.util.pluralize(files.length, 'database/databases') + ' deployed');
+      done(true);
+    });
+
+    this.files.forEach(function(file, i, files) {
     });
   });
 };
