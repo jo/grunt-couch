@@ -67,13 +67,16 @@ module.exports = function(grunt) {
       if (resp.statusCode === 200) {
         if (data && data.rows) {
           // delete current replication docs
-          var docs = data.rows.map(function(row) {
+          var docs = grunt.util._.compact(data.rows.map(function(row) {
+            if (!row.value) {
+              return null;
+            }
             return {
               _id: row.id,
               _rev: row.value.rev,
               _deleted: true
             };
-          });
+          }));
           return cancelReplications(req, url, { docs: docs }, function(ok) {
             if (!ok) {
               return done(false);
