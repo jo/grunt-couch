@@ -49,7 +49,7 @@ about possible source and target configurations.
 
 #### options.merge
 
-Your can specify a directory which will be merged into all docs.
+You can specify a directory which will be merged into all docs.
 This is useful to provide defaults like templates and libs which are used in all ddocs.
 
 Eg:
@@ -69,10 +69,37 @@ grunt.initConfig({
 })
 ```
 
+#### options.exports
+
+You can write any design doc parts as CommonJS modules and have only the exported function written to the compiled doc.
+
+Eg: Write the exported value from view modules instead of the raw file contents.
+
+```js
+grunt.initConfig({
+  'couch-compile': {
+    app: {
+      config: {
+        exports: ['**/views/**']
+      },
+      files: {
+        'tmp/app.json': 'couch/*'
+      }
+    }
+  }
+})
+```
+
+* Files which are **not** globbed in `options.exports` will have their contents written directly to the design document.
+* Only files which are globbed in `options.exports` are interpreted as CommonJS modules.
+* Files globbed in `options.exports` which are not commonjs modules will be written directly to the design document, so
+feel free to write greedy patterns.
+
+See tests for an example.
 
 ### The Couch Directory Tree
 
-is quiet self-explanatory. For example:
+is quite self-explanatory. For example:
 
 ```shell
 app
