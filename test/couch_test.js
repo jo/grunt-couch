@@ -62,5 +62,14 @@ exports.couch = {
     test.equal(actual, expected, 'should merge properties from shared doc.');
 
     test.done();
+  },
+  commonjs: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/commonjs.json');
+    var expected = grunt.file.read('test/expected/commonjs.json');
+    test.equal(actual, expected, 'should write parts from commonjs modules.');
+
+    test.done();
   }
 };
