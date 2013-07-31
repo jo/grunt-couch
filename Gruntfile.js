@@ -51,6 +51,14 @@ module.exports = function(grunt) {
         files: {
           'tmp/merge.json': 'test/fixtures/merge/*'
         }
+      },
+      commonjs: {
+        options: {
+          exports: ['**/views/**', '**/updates/*']
+        },
+        files: {
+          'tmp/commonjs.json': 'test/fixtures/commonjs'
+        }
       }
     },
 

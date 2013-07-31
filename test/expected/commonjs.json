@@ -1,0 +1,24 @@
+{
+  "docs": [
+    {
+      "_id": "_design/commonjs",
+      "lib": {
+        "shows": {
+          "hello": "exports.hello = 'Hello World';"
+        }
+      },
+      "updates": {
+        "doc": "function (doc, req) {\n  doc = doc || {};\n\n  for (var field in req.form) {\n    doc[field] = req.form[field];\n  }\n  doc.type = 'doc';\n\n  return [doc, 'updated doc'];\n}"
+      },
+      "views": {
+        "names": {
+          "map": "function (doc) {\n  if (doc.name) {\n    emit(doc.name, null);\n  }\n}"
+        },
+        "numbers": {
+          "map": "function(doc) {\n  if (doc.number) {\n    emit(doc.number, null);\n  }\n}",
+          "reduce": "_count"
+        }
+      }
+    }
+  ]
+}

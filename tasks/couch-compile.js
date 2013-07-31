@@ -68,11 +68,15 @@ module.exports = function(grunt) {
         if (filename.match(/\.json$/)) {
           part[name] = grunt.file.readJSON(abspath);
         } else {
-          part[name] = grunt.file.read(abspath).trim();
+          var contents = grunt.file.read(abspath).trim();
+          if (options.exports && grunt.file.isMatch(options.exports, abspath) && contents.indexOf('exports') >= 0) {
+            contents = require(path.resolve(abspath)).toString();
+          }
+          part[name] = contents;
         }
       }
     });
-    
+
     return doc;
   }
 
