@@ -58,7 +58,7 @@ Eg:
 grunt.initConfig({
   'couch-compile': {
     app: {
-      config: {
+      options: {
         merge: 'couch/shared'
       },
       files: {
@@ -79,7 +79,7 @@ Eg: Write the exported value from view modules instead of the raw file contents.
 grunt.initConfig({
   'couch-compile': {
     app: {
-      config: {
+      options: {
         exports: ['**/views/**']
       },
       files: {
@@ -96,6 +96,32 @@ grunt.initConfig({
 feel free to write greedy patterns.
 
 See tests for an example.
+
+#### options.pattern
+
+You can specify with a pattern, or an array of patterns, which files in your couchapp directories will be included
+in the compilation.
+
+```js
+grunt.initConfig({
+  'couch-compile': {
+    app: {
+      options: {
+        pattern: [
+          '*',
+          '!*test.*',  // ignore tests
+        ]
+      },
+      files: {
+        'tmp/app.json': 'couch/*'
+      }
+    }
+  }
+})
+```
+
+This is especially handy when combined with `options.exports`. You can write testable design doc parts as modules, store
+test files next to the modules they test, and exclude the tests from being compiled into the design doc.
 
 ### The Couch Directory Tree
 
