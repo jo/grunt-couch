@@ -72,7 +72,7 @@ grunt.initConfig({
 
 ### The Couch Directory Tree
 
-is quiet self-explanatory. For example:
+is quite self-explanatory. For example:
 
 ```shell
 app
