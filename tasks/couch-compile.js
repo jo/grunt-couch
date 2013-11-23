@@ -67,6 +67,8 @@ module.exports = function(grunt) {
 
         if (filename.match(/\.json$/)) {
           part[name] = grunt.file.readJSON(abspath);
+        } else if (filename.match(/\.js$/)) {
+          part[name] = grunt.file.read(abspath).trim().replace(/^function\s+[^(]*\(/,'function(');
         } else {
           part[name] = grunt.file.read(abspath).trim();
         }
