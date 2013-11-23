@@ -45,6 +45,15 @@ exports.couch = {
 
     test.done();
   },
+  functionnames: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/functionnames.json');
+    var expected = grunt.file.read('test/expected/functionnames.json');
+    test.equal(actual, expected, 'should remove function names from ddoc functions');
+
+    test.done();
+  },
   advanced: function(test) {
     test.expect(1);
 

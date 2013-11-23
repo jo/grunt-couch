@@ -17,6 +17,14 @@ module.exports = function(grunt) {
         'tasks/*.js',
         '<%= nodeunit.tests %>',
       ],
+      ddoc : {
+         files: {
+           src: 'test/fixtures/functionnames/**/*.js' 
+         },
+         options: {
+           couch: true 
+         }
+      },
       options: {
         jshintrc: '.jshintrc',
       },
@@ -37,6 +45,11 @@ module.exports = function(grunt) {
       full: {
         files: {
           'tmp/full.json': 'test/fixtures/full'
+        }
+      },
+      functionnames: {
+        files: {
+          'tmp/functionnames.json': 'test/fixtures/functionnames'
         }
       },
       advanced: {

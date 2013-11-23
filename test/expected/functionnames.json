@@ -1,0 +1,52 @@
+{
+  "docs": [
+    {
+      "_attachments": {
+        "a/nested/file.txt": {
+          "data": "SGVsbG8gV29ybGQhCg==",
+          "content_type": "text/plain"
+        },
+        "index.html": {
+          "data": "PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ZW4+CiAgPGgxPldlbGNvbWUhPC9oMT4K",
+          "content_type": "text/html"
+        }
+      },
+      "_id": "_design/full",
+      "filters": {
+        "doc": "function(doc, req) {\n  return doc.type === 'doc';\n}"
+      },
+      "language": "javascript",
+      "lib": {
+        "shows": {
+          "hello": "exports.hello = 'Hello World';"
+        }
+      },
+      "lists": {
+        "docs": "function(head, req) {\n  var row;\n  start({\n    headers: {\n      'Content-Type': 'text/html'\n    }\n  });\n  send('<!DOCTYPE html><html lang=en>');\n  send('<ol>');\n  while(row = getRow()) {\n    send('<li>' + row.key + '</li>');\n  }\n  send('</ol>');\n}"
+      },
+      "rewrites": [
+        {
+          "from": "/",
+          "to": "index.html"
+        }
+      ],
+      "shows": {
+        "doc": "function(doc, req) {\n  return {\n    body: 'Hello #' + doc.number\n  };\n}",
+        "hello": "function(doc, req) {\n  return {\n    body: require('lib/shows/hello')\n  };\n}"
+      },
+      "updates": {
+        "doc": "function(doc, req) {\n  doc = doc || {};\n\n  for (var field in req.form) {\n    doc[field] = req.form[field];\n  }\n  doc.type = 'doc';\n\n  return [doc, 'updated doc'];\n}"
+      },
+      "validate_doc_update": "function(newDoc, oldDoc, userCtx, secObj) {\n  if (typeof newDoc.number !== 'number') {\n    throw({ forbidden: 'Document must have a number.' });\n  }\n}",
+      "views": {
+        "names": {
+          "map": "function(doc) {\n  if (doc.name) {\n    emit(doc.name, null);\n  }\n}"
+        },
+        "numbers": {
+          "map": "function(doc) {\n  if (doc.number) {\n    emit(doc.number, null);\n  }\n}",
+          "reduce": "_count"
+        }
+      }
+    }
+  ]
+}
