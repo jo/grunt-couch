@@ -95,7 +95,6 @@ module.exports = function(grunt) {
 
     var done = this.async();
     var files = this.files;
-    var deployedCount = 0;
 
     // FIXME: Initiating parallel requests results in
     // EPIPE or ECONNRESET errors when the database does not exist.
@@ -106,7 +105,6 @@ module.exports = function(grunt) {
         } else {
           async.each(file.src, function(src, nextSrc) {
             push(grunt.file.readJSON(src), file.dest, auth, nextSrc);
-            deployedCount++;
           }, next);
         }
     }, function(err) {
@@ -115,7 +113,7 @@ module.exports = function(grunt) {
         return done(false);
       }
             
-      grunt.log.ok(deployedCount + ' ' + grunt.util.pluralize(deployedCount, 'database/databases') + ' deployed');
+      grunt.log.ok(files.length + ' ' + grunt.util.pluralize(files.length, 'database/databases') + ' deployed');
       done(true);
     });
   });
