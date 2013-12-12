@@ -160,7 +160,7 @@ grunt.initConfig({
     },
     localhost: {
       files: {
-        'http://localhost:5984/myapp': 'app.json'
+        'http://localhost:5984/myapp': 'tmp/app.json'
       }
     }
   }

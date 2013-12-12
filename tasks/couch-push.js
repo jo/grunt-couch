@@ -95,20 +95,27 @@ module.exports = function(grunt) {
 
     var done = this.async();
     var files = this.files;
+    var deployedCount = 0;
 
     // FIXME: Initiating parallel requests results in
     // EPIPE or ECONNRESET errors when the database does not exist.
+
     async.eachSeries(files, function(file, next) {
-      async.each(file.src, function(src, nextSrc) {
-        push(grunt.file.readJSON(src), file.dest, auth, nextSrc);
-      }, next);
+        if (file.src.length === 0) {
+          grunt.log.error("Could not find files: \"" + file.orig.src + "\"");        
+        } else {
+          async.each(file.src, function(src, nextSrc) {
+            push(grunt.file.readJSON(src), file.dest, auth, nextSrc);
+            deployedCount++;
+          }, next);
+        }
     }, function(err) {
       if (err) {
         grunt.log.error(err);
         return done(false);
       }
             
-      grunt.log.ok(files.length + ' ' + grunt.util.pluralize(files.length, 'database/databases') + ' deployed');
+      grunt.log.ok(deployedCount + ' ' + grunt.util.pluralize(deployedCount, 'database/databases') + ' deployed');
       done(true);
     });
   });
