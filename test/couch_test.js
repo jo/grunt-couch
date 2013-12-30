@@ -62,5 +62,24 @@ exports.couch = {
     test.equal(actual, expected, 'should merge properties from shared doc.');
 
     test.done();
+  },
+  jsonfile: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/jsonfile.json');
+    var expected = grunt.file.read('test/expected/jsonfile.json').trim();
+    test.equal(actual, expected, 'should compile from single json file.');
+
+    test.done();
+  },
+  jsfile: function(test) {
+    test.expect(1);
+
+    var actual = grunt.file.read('tmp/jsfile.json');
+    var expected = grunt.file.read('test/expected/jsfile.json').trim();
+    test.equal(actual, expected, 'should compile from a sinle js file.');
+
+    test.done();
   }
+
 };

@@ -12,6 +12,35 @@ module.exports = function(grunt) {
   var path = require('path');
   var mime = require('mime');
 
+  /*
+   * Recursively transform an object into a JSON compatible representation
+   * and preserve methods by calling toString() on the function objects.
+   */
+  function objToJson(obj) {
+    return grunt.util._.object(
+      grunt.util._.map(obj, function(value, key) {
+        if (typeof value === 'function') {
+          return [key, value.toString()];
+        } else if (typeof value === 'object') {
+          return [key, objToJson(value)];
+        } else {
+          return [key, value];
+        }
+      })
+    );
+  }
+
+  function compileFromPath(filepath, shared, options) {
+    if (grunt.file.isDir(filepath)) {
+      return grunt.util._.merge({}, shared, compile(filepath, options));
+    } else if (grunt.util._.endsWith(filepath, '.js')) {
+      var fullpath = path.join(process.cwd(), path.normalize(filepath));
+      return objToJson(require(fullpath));
+    } else {
+      return grunt.file.readJSON(filepath);
+    }
+  }
+
   function compileDocs(dirs, options) {
     var shared = {};
 
@@ -28,7 +57,7 @@ module.exports = function(grunt) {
         }
 
         grunt.log.write('Compiling ' + dir + '...');
-        var doc = grunt.file.isDir(dir) ? grunt.util._.merge({}, shared, compile(dir, options)) : grunt.file.readJSON(dir);
+        var doc = compileFromPath(dir, shared, options);
         grunt.log.ok();
 
         return doc;
@@ -65,7 +94,7 @@ module.exports = function(grunt) {
           return result[key];
         }, doc);
 
-        if (filename.match(/\.json$/)) {
+        if (grunt.util._.endsWith(filename, '.json')) {
           part[name] = grunt.file.readJSON(abspath);
         } else {
           part[name] = grunt.file.read(abspath).trim();
