@@ -1,0 +1,8 @@
+{
+  "_id": "_design/jsonfile",
+  "views": {
+    "names": {
+      "map": "function(doc) {\n  if (doc.name) {\n    emit(doc.name, null);\n  }\n}"
+    }
+  }
+}

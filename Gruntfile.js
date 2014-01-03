@@ -51,6 +51,16 @@ module.exports = function(grunt) {
         files: {
           'tmp/merge.json': 'test/fixtures/merge/*'
         }
+      },
+      jsonfile: {
+        files: {
+          'tmp/jsonfile.json': 'test/fixtures/jsonfile/app.json'
+        }
+      },
+      jsfile: {
+        files: {
+          'tmp/jsfile.json': 'test/fixtures/jsfile/app.js'
+        }
       }
     },
 
