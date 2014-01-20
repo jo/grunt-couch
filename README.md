@@ -23,6 +23,7 @@ grunt.loadNpmTasks('grunt-couch');
 ```
 
 ## The "couch-compile" task
+Process Couchapp directoriy trees, JSON files and JavaScript modules.
 
 ### Overview
 
@@ -49,7 +50,7 @@ about possible source and target configurations.
 
 #### options.merge
 
-Your can specify a directory which will be merged into all docs.
+Your can specify sources which will be merged into all docs.
 This is useful to provide defaults like templates and libs which are used in all ddocs.
 
 Eg:
@@ -59,7 +60,7 @@ grunt.initConfig({
   'couch-compile': {
     app: {
       config: {
-        merge: 'couch/shared'
+        merge: 'couch/shared/*'
       },
       files: {
         'tmp/app.json': 'couch/*'
@@ -69,6 +70,8 @@ grunt.initConfig({
 })
 ```
 
+Merge sources are expanded via [grunt.file.expand](http://gruntjs.com/api/grunt.file#grunt.file.expand)
+and compiled in exactly the same way as the other couch-compile targets.
 
 ### The Couch Directory Tree
 
