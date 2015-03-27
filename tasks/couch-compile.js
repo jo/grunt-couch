@@ -19,6 +19,10 @@ module.exports = function(grunt) {
     var shared = {};
     var done = this.async();
 
+    var ignoreFiles = grunt.file.read('.couchappignore')
+    var ignoreFilesArr = ignoreFiles.split('\n')
+    options.ignoreFiles = ignoreFilesArr;
+
     function processShared(dir, next) {
       compile(dir, options, function(err, doc) {
         if (err) {
