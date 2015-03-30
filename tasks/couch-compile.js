@@ -19,9 +19,11 @@ module.exports = function(grunt) {
     var shared = {};
     var done = this.async();
 
-    var ignoreFiles = grunt.file.read('.couchappignore')
-    var ignoreFilesArr = ignoreFiles.split('\n')
-    options.ignoreFiles = ignoreFilesArr;
+    if (grunt.file.exists('.couchappignore')) {
+      var ignoreFiles = grunt.file.read('.couchappignore')
+      var ignoreFilesArr = ignoreFiles.split('\n')
+      options.ignoreFiles = ignoreFilesArr;
+    }
 
     function processShared(dir, next) {
       compile(dir, options, function(err, doc) {
@@ -43,7 +45,7 @@ module.exports = function(grunt) {
         }
 
         _.merge(doc, shared);
-        
+
         grunt.log.write('Compiling ' + source + '...').ok();
         next(null, doc);
       });

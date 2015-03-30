@@ -73,6 +73,11 @@ grunt.initConfig({
 Merge sources are expanded via [grunt.file.expand](http://gruntjs.com/api/grunt.file#grunt.file.expand)
 and compiled in exactly the same way as the other couch-compile targets.
 
+#### options.ignoreFiles
+
+If you have a .couchappignore file, it will populate options.ignoreFiles and pass them to 
+[couch-compile](https://github.com/jo/couch-compile), which will ignore those files. 
+
 ### The Couch Directory Tree
 
 is quite self-explanatory. For example:
