@@ -101,10 +101,11 @@ app
         └── reduce
 ```
 
-`grunt-couch` uses the same filesystem mapping like [Couchapp python tool](http://couchapp.org/page/couchapp-python)
-and [Erika](https://github.com/benoitc/erica):
+`grunt-couch` uses a filesystem mapping similar to [Couchapp python
+tool](https://github.com/couchapp/couchapp) and
+[Erika](https://github.com/benoitc/erica).
 
-[The Couchapp Filesystem Mapping](http://couchapp.org/page/filesystem-mapping).
+`grunt-couch` is based on [couch-compile](https://github.com/jo/couch-compile).
 
 For the property name the file extension will be stripped:
 
