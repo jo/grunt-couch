@@ -283,7 +283,7 @@ Your password.
 
 ## The "couch-replication" task
 
-You can write [CouchDB _replicator Documents](http://couchdb.readthedocs.org/en/latest/replication.html)
+You can write [CouchDB _replicator Documents](http://couchdb.readthedocs.org/en/1.6.1/api/server/common.html#api-server-replicate)
 from project files with `couch-replication`.
 
 If there is already a replication document, it will gets deleted and recreated,
