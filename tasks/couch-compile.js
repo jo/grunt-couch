@@ -26,6 +26,9 @@ module.exports = function(grunt) {
         }
 
         _.merge(shared, doc);
+        
+        // Don't clobber _id attributes with a shared _id
+        delete shared._id;
 
         grunt.log.write('Compiling shared ' + dir + '...').ok();
         next(null, doc);
