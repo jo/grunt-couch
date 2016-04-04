@@ -9,7 +9,7 @@
 'use strict';
 var _ = require('lodash');
 var async = require('async');
-var compile = require('couch-compile');
+var compile = require('couchdb-compile');
 
 module.exports = function(grunt) {
   grunt.registerMultiTask('couch-compile', 'Compile documents from directories, JSON files or modules.', function() {
@@ -26,6 +26,9 @@ module.exports = function(grunt) {
         }
 
         _.merge(shared, doc);
+        
+        // Don't clobber _id attributes with a shared _id
+        delete shared._id;
 
         grunt.log.write('Compiling shared ' + dir + '...').ok();
         next(null, doc);

@@ -42,7 +42,7 @@
     "async": "~0.2.9",
     "mime": "~1.2.9",
     "lodash": "~2.4.1",
-    "couch-compile": "~1.0.1"
+    "couchdb-compile": "~1.6.2"
   },
   "keywords": [
     "gruntplugin",
