@@ -10,6 +10,7 @@
 
 module.exports = function(grunt) {
   var request = require('request');
+  var _ = require('lodash');
 
   function createDatabase(auth, url, done) {
     request.put(url, { json: true, auth: auth }, function(err, resp, data) {
@@ -35,7 +36,7 @@ module.exports = function(grunt) {
       }
 
       var ok = (resp.statusCode === 201 || resp.statusCode === 202) &&
-        grunt.util._.all(data, function(d) { return !d.error; });
+        _.all(data, function(d) { return !d.error; });
 
       if (ok) {
         grunt.log.ok();
