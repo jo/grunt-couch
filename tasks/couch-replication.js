@@ -10,6 +10,7 @@
 
 module.exports = function(grunt) {
   var request = require('request');
+  var _ = require('lodash');
 
   function bulkDocs(msg, req, url, doc, done) {
     req(url + '/_replicator/_bulk_docs', { body: doc }, function(err, resp, data) {
@@ -22,7 +23,7 @@ module.exports = function(grunt) {
       }
 
       var ok = (resp.statusCode === 201 || resp.statusCode === 202) &&
-        grunt.util._.all(data, function(d) { return !d.error; });
+        _.all(data, function(d) { return !d.error; });
 
       if (ok) {
         grunt.log.ok();
@@ -67,7 +68,7 @@ module.exports = function(grunt) {
       if (resp.statusCode === 200) {
         if (data && data.rows) {
           // delete current replication docs
-          var docs = grunt.util._.compact(data.rows.map(function(row) {
+          var docs = _.compact(data.rows.map(function(row) {
             if (!row.value) {
               return null;
             }
