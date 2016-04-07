@@ -3,6 +3,6 @@ node_js:
   - 0.10
   - 0.8
 before_install:
-  - npm update -q
+  - npm update -q npm
 before_script:
   - npm install -g grunt-cli
