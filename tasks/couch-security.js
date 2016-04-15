@@ -22,7 +22,8 @@ module.exports = function(grunt) {
     }
 
     var req = request.defaults(defaults);
-    req(url + '/_security', { body: security }, function(err, resp, data) {
+    var securityJson = JSON.parse(security);
+    req(url + '/_security', { body: securityJson }, function(err, resp, data) {
       grunt.log.write(url + '...');
 
       if (err) {
