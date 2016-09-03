@@ -40,7 +40,7 @@ module.exports = function(grunt) {
     grunt.log.write('Writing ' + config.key + '=' + config.value + '...');
 
     var req = request.defaults(defaults);
-    req(url + '/_config/' + config.key, { body: JSON.stringify(config.value) }, function(err, resp, data) {
+    req(url + '/_config/' + config.key, { body: config.value }, function(err, resp, data) {
       if (err) {
         grunt.log.error(err);
         done(false);
