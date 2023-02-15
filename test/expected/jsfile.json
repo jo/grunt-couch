@@ -4,7 +4,7 @@
       "_id": "_design/jsfile",
       "views": {
         "names": {
-          "map": "function (doc) {\n  if (doc.name) {\n    emit(doc.name, null);\n  }\n}"
+          "map": "function(doc) {\n  if (doc.name) {\n    emit(doc.name, null);\n  }\n}"
         }
       }
     }

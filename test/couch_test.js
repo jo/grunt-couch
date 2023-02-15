@@ -8,7 +8,7 @@ exports.couch = ['simple', 'full', 'advanced', 'merge', 'jsonfile', 'jsfile'].re
 
     var actual = grunt.file.readJSON('tmp/' + name + '.json');
     var expected = grunt.file.readJSON('test/expected/' + name + '.json');
-    test.deepEqual(actual, expected, 'should have compiled doc.');
+    test.same(actual, expected, 'should have compiled doc.');
 
     test.done();
   };
